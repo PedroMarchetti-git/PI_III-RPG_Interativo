@@ -1,17 +1,15 @@
-# pi_iii_rpg_interativo
+# flutter_map&nbsp;&nbsp;&nbsp;&nbsp;[![pub.dev](https://img.shields.io/pub/v/flutter_map.svg?label=&style=for-the-badge)](https://pub.dev/packages/flutter_map)
 
-A new Flutter project.
+Flutter's №1 non-commercially aimed map client: it's easy-to-use, versatile, vendor-free, fully cross-platform, and 100% pure-Flutter
 
-## Getting Started
+* ### [📖 **Read the docs**](https://docs.fleaflet.dev/)
 
-This project is a starting point for a Flutter application.
+* ### [🚀 **Launch the web demo**](https://demo.fleaflet.dev/)
 
-A few resources to get you started if this is your first Flutter project:
+* ### [✍️ **Visit the GitHub source**](https://github.com/fleaflet/flutter_map)
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+* ### [📦 **Visit the pub.dev package**](https://pub.dev/packages/flutter_map)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+* ### [💬 **Join our Discord server**](https://discord.gg/BwpEsjqMAH)
+
+* ### [💝 **Support us**](https://github.com/sponsors/fleaflet)

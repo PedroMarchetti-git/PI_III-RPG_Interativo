@@ -1,3 +1,9 @@
+firebase.json
+.firebaserc
+codecov.yml
+
+# From gitignore. See https://github.com/dart-lang/pub/issues/4545.
+
 # Miscellaneous
 *.class
 *.log
