@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "420337132658",
+    "project_id": "projeto-integrador-iii-2ff26",
+    "storage_bucket": "projeto-integrador-iii-2ff26.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:420337132658:android:a2b0cf9f4beede6b1c0eeb",
+        "android_client_info": {
+          "package_name": "com.example.pi_iii_rpg_interativo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4d9ZSHgkYPQaWscrFTm9_tBrapv-HOcw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
