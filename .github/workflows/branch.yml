@@ -1,0 +1,164 @@
+name: "Branch & PR"
+on:
+  push:
+    branches: [ "!master" ]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  score-package:
+    name: "Score Package"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v6
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          cache: true
+      - name: Install pana
+        run: dart pub global activate pana
+      - name: Check package score
+        run: pana --exit-code-threshold 0 .
+
+  analyse-code:
+    name: "Analyse Code"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v6
+      - name: Setup Flutter Environment
+        uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+          cache: true
+      - name: Get All Dependencies
+        run: flutter pub get
+      - name: Check Formatting
+        run: dart format --output=none --set-exit-if-changed .
+      - name: Check Lints
+        run: dart analyze --fatal-infos --fatal-warnings
+
+  run-tests:
+    name: "Run Tests"
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sdk: [ "3.27.0", "" ]
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v6
+      - name: Setup Flutter Environment
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ matrix.sdk }}
+          cache: true
+      - name: Run Tests with Coverage
+        run: flutter test -r expanded --coverage
+      - name: Run Codecov
+        if: ${{ matrix.sdk == '' }}
+        uses: codecov/codecov-action@v6
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+  build-android:
+    name: "Build Android Example App"
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sdk: [ "3.27.0", "" ]
+    defaults:
+      run:
+        working-directory: ./example
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v6
+      - name: Setup Java 21 Environment
+        uses: actions/setup-java@v5
+        with:
+          distribution: "temurin"
+          java-version: "21"
+          cache: "gradle"
+      - name: Setup Flutter Environment
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ matrix.sdk }}
+          cache: true
+      - name: Build Android Application
+        run: flutter build apk --dart-define=COMMIT_SHA=${{ github.sha }} --dart-define=flutter.flutter_map.unblockOSM="${{ secrets.UNBLOCK_OSM }}"
+      - name: Archive Artifact
+        if: ${{ matrix.sdk == '' }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: apk-build
+          path: example/build/app/outputs/apk/release
+          if-no-files-found: error
+
+  build-windows:
+    name: "Build Windows Example App"
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sdk: [ "3.27.0", "" ]
+    defaults:
+      run:
+        working-directory: ./example
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v6
+      - name: Setup Flutter Environment
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ matrix.sdk }}
+          cache: true
+      - name: Build Windows Application
+        run: flutter build windows --dart-define=COMMIT_SHA=${{ github.sha }} --dart-define=flutter.flutter_map.unblockOSM="${{ secrets.UNBLOCK_OSM }}"
+      - name: Install Inno Setup
+        if: ${{ matrix.sdk == '' }}
+        run: choco install innosetup --yes --no-progress
+      - name: Create Windows Application Installer
+        if: ${{ matrix.sdk == '' }}
+        run: iscc "windowsApplicationInstallerSetup.iss"
+        working-directory: .
+      - name: Archive Artifact
+        if: ${{ matrix.sdk == '' }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: exe-build
+          path: windowsTemp/WindowsApplication.exe
+          if-no-files-found: error
+
+  build-web:
+    name: "Build Web Example App"
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sdk: [ "3.27.0", "" ]
+    defaults:
+      run:
+        working-directory: ./example
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v6
+      - name: Setup Flutter Environment
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ matrix.sdk }}
+          cache: true
+      - name: Build Web Application
+        run: flutter build web --wasm --dart-define=COMMIT_SHA=${{ github.sha }} --dart-define=flutter.flutter_map.unblockOSM="${{ secrets.UNBLOCK_OSM }}"
+      - name: Archive Artifact
+        uses: actions/upload-artifact@v7
+        if: ${{ matrix.sdk == '' }}
+        with:
+          name: web-build
+          path: example/build/web
+          if-no-files-found: error
