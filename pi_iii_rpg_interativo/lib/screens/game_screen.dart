@@ -12,8 +12,8 @@ class GameScreen extends StatelessWidget {
           // MAPA BASE
           FlutterMap( // Usamos o FlutterMap para exibir um mapa interativo.
             options: MapOptions( // Configurações iniciais do mapa, como centro e zoom.
-              center: LatLng(-23.5505, -46.6333), // Coordenada de SP como exemplo
-              zoom: 17.0,
+              initialCenter: LatLng(-23.5505, -46.6333), // Coordenada de SP como exemplo
+              initialZoom: 17.0,
             ),
             children: [
               TileLayer(
@@ -26,7 +26,7 @@ class GameScreen extends StatelessWidget {
                     point: LatLng(-23.5505, -46.6333), // Coordenada do jogador
                     width: 50, // Largura do ícone do jogador
                     height: 50, // Altura do ícone do jogador
-                    builder: (ctx) => Icon(Icons.person_pin_circle, color: Colors.blue, size: 45), // Ícone do jogador
+                    child: Icon(Icons.person_pin_circle, color: Colors.blue, size: 45), // Ícone do jogador
                   ),
                 ],
               ),
