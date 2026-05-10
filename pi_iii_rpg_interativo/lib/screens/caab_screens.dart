@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart'; // Importa o pacote Flutter para construir a interface do usuário.
-import 'package: provider/provider.dart'; // Importa o pacote Provider para gerenciamento de estado, permitindo que a tela acesse o estado do jogo.
+import 'package:provider/provider.dart'; // Importa o pacote Provider para gerenciamento de estado, permitindo que a tela acesse o estado do jogo.
 import '../models/game_state.dart'; // Importa o modelo GameState, que contém o estado atual do jogo, como tokens obtidos, personagens interrogados, etc.
 import '../widgets/choice_button.dart'; // Importa um widget personalizado para botões de escolha, que pode ser reutilizado em várias telas para manter a consistência visual.
 import '../widgets/clue_card.dart'; // Importa um widget personalizado para exibir pistas, que pode ser reutilizado em várias telas para manter a consistência visual.
@@ -16,9 +16,9 @@ State<CaabScreen> { // Define o estado da tela do CAAB, incluindo variáveis par
   bool showingClues = false; // Controla se as pistas estão sendo mostradas na tela.
   bool showingCharacters = false; // Controla se os personagens interrogados estão sendo mostrados na tela.
   String currentDialogue = ""; // Armazena o diálogo atual a ser exibido, que pode mudar com base nas interações do jogador.
-  List<String> availableCurrentActions = []; // Lista de ações atuais disponíveis, que pode ser atualizada com base nas interações do jogador.
-  bool hasSerchedBookshelf = false; // Controla se o jogador já procurou a estante de livros, para evitar mostrar a mesma pista repetidamente. 
-  bool hasExaminedAtwork = false; // Controla se o jogador já examinou a obra de arte, para evitar mostrar a mesma pista repetidamente.
+  List<String> availableActions = []; // Lista de ações atuais disponíveis, que pode ser atualizada com base nas interações do jogador.
+  bool hasSearchedBookshelf = false; // Controla se o jogador já procurou a estante de livros, para evitar mostrar a mesma pista repetidamente. 
+  bool hasExaminedArtwork = false; // Controla se o jogador já examinou a obra de arte, para evitar mostrar a mesma pista repetidamente.
   bool hasCheckedComputers = false; // Controla se o jogador já verificou os computadores, para evitar mostrar a mesma pista repetidamente.
 
   @override // Sobrescreve o método build para construir a interface do usuário da tela do CAAB, exibindo opções de interação, pistas e personagens com base no estado atual do jogo.
@@ -69,4 +69,4 @@ State<CaabScreen> { // Define o estado da tela do CAAB, incluindo variáveis par
     }
     return actions;// Retorna a lista de ações disponíveis, que será usada para exibir as opções corretas para o jogador na interface do CAAB, com base no estado atual do jogo e nas interações já feitas.
    }
-};
+}
